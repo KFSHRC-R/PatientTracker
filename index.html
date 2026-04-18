@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Patient Tracker</title>
+  <style>
+    body { font-family: Arial; margin:0; background:#f5f7fa;}
+    
+    .header {
+      background:#1e7e34;
+      padding:10px;
+      text-align:center;
+    }
+
+    .header img {
+      max-width:280px;
+    }
+
+    .container {
+      max-width:500px;
+      margin:20px auto;
+      background:white;
+      padding:20px;
+      border-radius:10px;
+    }
+
+    label {
+      font-weight:bold;
+      display:block;
+      margin-top:10px;
+    }
+
+    input, select, button {
+      width:100%;
+      padding:10px;
+      margin:6px 0 12px 0;
+    }
+
+    button {
+      background:#1e7e34;
+      color:white;
+      border:none;
+      font-size:16px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER WITH LOGO -->
+<div class="header">
+  <img src="logo.png" alt="Hospital Logo">
+</div>
+
+<div class="container">
+  <h3 id="roomDisplay"></h3>
+
+  <!-- hidden iframe -->
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  <!-- FORM -->
+  <form id="form"
+    action="https://docs.google.com/forms/d/e/1FAIpQLScuh88g_gjHoNuFjP_yKGaN6rBBEDbOoF6-SAOiIwrDe8ALlw/formResponse"
+    method="POST"
+    target="hidden_iframe">
+
+    <label>MRN (Patient Number)</label>
+    <input type="text" name="entry.1045781291" required>
+
+    <label>Transaction Type</label>
+    <select name="entry.1065046570">
+      <option>Admission</option>
+      <option>Discharge</option>
+      <option>Transfer IN</option>
+      <option>Transfer OUT</option>
+    </select>
+
+    <label>Paper Portion Available?</label>
+    <select name="entry.1166974658">
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+
+    <label>Staff ID</label>
+    <input type="text" name="entry.839337160" required>
+
+    <!-- hidden room -->
+    <input type="hidden" id="roomField" name="entry.2005620554">
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+// Get room from NFC
+const params = new URLSearchParams(window.location.search);
+const room = params.get("room");
+
+document.getElementById("roomDisplay").innerText = "Room: " + room;
+document.getElementById("roomField").value = room;
+
+// After submit → close page
+document.getElementById("form").addEventListener("submit", function(){
+  setTimeout(function(){
+    window.close();
+  }, 1500);
+});
+</script>
+
+</body>
+</html>
