@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Patient Tracker</title>
+  <style>
+    body { font-family: Arial; margin:0; background:#f5f7fa;}
+    .header { background:#1e7e34; padding:10px; text-align:center; }
+    .header img { max-width:280px; }
+    .container { max-width:500px; margin:20px auto; background:white; padding:20px; border-radius:10px; }
+    label { font-weight:bold; display:block; margin-top:10px; }
+    input, select, button { width:100%; padding:10px; margin:6px 0 12px 0; }
+    button { background:#1e7e34; color:white; border:none; font-size:16px; }
+  </style>
+</head>
+
+<body>
+
+<div class="header">
+  <img src="logo.png">
+</div>
+
+<div class="container">
+  <h3 id="roomDisplay"></h3>
+
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  <form id="form"
+    action="https://docs.google.com/forms/d/e/1FAIpQLScr-iQHzrOekK-wiFx-XIrpu9bryq1NvLLzg1ZZFK8xS0MkbA/formResponse"
+    method="POST"
+    target="hidden_iframe">
+
+    <label>MRN</label>
+    <input type="text" name="entry.1382160808" required>
+
+    <label>Transaction</label>
+    <select name="entry.1495653547">
+      <option>Admission</option>
+      <option>Discharge</option>
+      <option>Transfer IN</option>
+      <option>Transfer OUT</option>
+    </select>
+
+    <label>Paper Portion</label>
+    <select name="entry.2117396300">
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+
+    <label>Staff ID</label>
+    <input type="text" name="entry.1813326080" required>
+
+    <!-- hidden room -->
+    <input type="hidden" id="roomField" name="entry.1044132684">
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+// Get room from URL (NFC)
+const params = new URLSearchParams(window.location.search);
+const room = params.get("room");
+
+document.getElementById("roomDisplay").innerText = "Room: " + room;
+document.getElementById("roomField").value = room;
+
+// Close page after submit
+document.getElementById("form").addEventListener("submit", function(){
+  setTimeout(() => {
+    window.location.href = "about:blank";
+  }, 1500);
+});
+</script>
+
+</body>
+</html>
